@@ -1,0 +1,64 @@
+import random
+import math
+import time
+
+def generate_question():
+    operation = random.choice(['multiply', 'square', 'square root', 'cube', 'cube root'])
+    num = random.randint(1, 30) 
+    question = ""
+    answer = None
+
+    if operation == 'multiply':
+        num1 = random.randint(1, 10)
+        num2 = random.randint(1, 10)
+        question = f"What is {num1} times {num2}? "
+        answer = num1 * num2
+    elif operation == 'square':
+        question = f"What is the square of {num}? "
+        answer = num ** 2
+    elif operation == 'square root':
+        question = f"What is the square root of {num ** 2}? "
+        answer = num
+    elif operation == 'cube':
+        question = f"What is the cube of {num}? "
+        answer = num ** 3
+    else:  # operation == 'cube root'
+        question = f"What is the cube root of {num ** 3}? "
+        answer = num
+
+    return question, answer
+
+def main():
+    print("Welcome to the Math Quiz Game!")
+    print("You will be asked questions about multiplication, squares, square roots, cubes, and cube roots up to 1000.")
+    print("Type 'exit' to quit the game.\n")
+
+    while True:
+        question, answer = generate_question()
+        print(question)
+        start_time = time.time()
+        user_answer = input()
+        end_time = time.time()
+        
+        if user_answer.lower() == 'exit':
+            print("Thanks for playing! Goodbye!")
+            break
+
+        try:
+            user_answer = float(user_answer) if '.' in user_answer else int(user_answer)
+        except ValueError:
+            print("Invalid input! Please enter a valid number or 'exit' to quit.")
+            continue
+
+        # Check the user's answer based on the operation
+        if math.isclose(user_answer, answer, rel_tol=1e-2):  # Allowing a small tolerance for float comparisons
+            print("Correct!")
+        else:
+            print(f"Wrong! The correct answer is {answer}.")
+
+        # Calculate and display time taken to answer
+        time_taken = round(end_time - start_time, 2)
+        print(f"Time taken: {time_taken} seconds\n")
+
+if __name__ == "__main__":
+    main()
